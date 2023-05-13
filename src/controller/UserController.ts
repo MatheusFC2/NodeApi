@@ -6,6 +6,14 @@ class UserController {
         const { name, email, password } = request.body;
 
         try {
+            const userExists = await User.findOne({ email });
+
+            if (userExists) {
+                return response.status(400).json({
+                    error: "Oops",
+                    menssage: "User already exists"
+                })
+            }
             
             const user = await User.create({
                 name,
